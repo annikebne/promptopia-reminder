@@ -1,0 +1,18 @@
+import { connectToDB } from "@utils/database";
+import Item from '@models/Item'
+
+export const POST = async (request) => {
+  const { ids } = await request.json();
+
+  try {
+    await connectToDB();
+
+    ids.forEach(async (id) => {
+      await Item.findByIdAndRemove(id)
+    })
+
+    return new Response("Prompt deleted successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Error deleting prompt", { status: 500 });
+  }
+};
