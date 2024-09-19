@@ -1,5 +1,5 @@
 import { connectToDB } from "@utils/database";
-import Item from '@models/Item'
+import Item from '@models/item'
 
 export const POST = async (request) => {
   const { ids } = await request.json();
