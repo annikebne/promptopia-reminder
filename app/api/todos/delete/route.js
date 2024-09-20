@@ -11,8 +11,8 @@ export const POST = async (request) => {
       await Item.findByIdAndRemove(id)
     })
 
-    return new Response("Prompt deleted successfully", { status: 200 });
+    return new Response("Item deleted successfully", { status: 200 });
   } catch (error) {
-    return new Response("Error deleting prompt", { status: 500 });
+    return new Response("Error deleting item", { status: 500 });
   }
 };

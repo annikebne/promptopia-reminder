@@ -1,9 +1,8 @@
-import "@styles/globals.css";
+import "@styles/globals.css"
 
-import Nav from "@components/Nav";
-import Provider from "@components/Provider";
-import Head from 'next/head';
-// import { SessionProvider } from 'next-auth/react';
+import  Provider from "@components/Provider"
+import Nav from "@components/Nav"
+import Head from 'next/head'
 
 const RootLayout = ({ children }) => (
   <html lang='en'>
