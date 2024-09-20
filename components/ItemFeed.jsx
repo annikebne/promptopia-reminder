@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 
 import ItemCheckbox from './ItemCheckbox';
 
-const ItemFeed = () => {
+const ItemFeed = ({ recentlyAdded }) => {
   const { data: session } = useSession()
   const [items, setItems] = useState([])
   const [checkedItemIds, setCheckedItems] = useState([])
@@ -55,14 +55,19 @@ const ItemFeed = () => {
     fetchItems()
   }, [])
 
+  useEffect(() => {
+    console.log('recentlyAdded', recentlyAdded)
+  }, [recentlyAdded])
+
   return(
     <>
       {session?.user &&
         <section className="w-full sm:px-16 px-6">
           <div className="flex flex-col">
-            {items.length && items.map((item) => <ItemCheckbox key={item._id} item={item} toggle={toggle} />)}
+            {!!items.length && items.map((item) => <ItemCheckbox key={item._id} item={item} toggle={toggle} />)}
+            {!!recentlyAdded.length && recentlyAdded.map((newItem) => <ItemCheckbox key={newItem._id} item={newItem} toggle={toggle} />)}
           </div>
-          <button className="outline_btn" onClick={deleteItems}>Delete items</button>
+          <button className="my-4 px-4 py-2 font-semibold text-sm bg-a-black text-a-yellow rounded-md shadow-sm opacity-100 disabled:opacity-60" onClick={deleteItems}>Ta bort markerade</button>
         </section>
       }
     </>

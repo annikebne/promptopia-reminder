@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSession } from 'next-auth/react'
 
-function InputField () {
+function InputField ({ handleSucess }) {
   const { data: session } = useSession();
   const [input, setInput] = useState('');
 
@@ -30,6 +30,9 @@ function InputField () {
 
       if (response.ok) {
         console.log("Successfully added")
+        const data = await response.json()
+        handleSucess(data)
+        
       }
     } catch (error) {
       console.log("ERROR", error)

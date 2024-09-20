@@ -1,8 +1,15 @@
 import "@styles/globals.css"
+import { Londrina_Outline } from 'next/font/google'
 
-import  Provider from "@components/Provider"
+import Provider from "@components/Provider"
 import Nav from "@components/Nav"
 import Head from 'next/head'
+
+const londrina = Londrina_Outline({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-londrina-outline'
+})
 
 const RootLayout = ({ children }) => (
   <html lang='en'>
@@ -15,8 +22,10 @@ const RootLayout = ({ children }) => (
     <body>
       <Provider>
         <main className='app bg-a-yellow h-full'>
-          <Nav />
-          {children}
+          <div className={londrina.className}>
+            <Nav />
+            {children}
+          </div>
         </main>
       </Provider>
     </body>

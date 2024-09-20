@@ -19,9 +19,9 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className='flex-between w-full mb-16 pt-3 sm:px-16 px-6'>
+    <nav className='flex-between w-full mb-10 pt-3 sm:px-16 px-6'>
       <div className='flex gap-2 flex-center'>
-        <p className=''>Kom ihåg</p>
+        <p className="logo small uppercase">Kom ihåg</p>
       </div>
 
       {/* Desktop Navigation */}
@@ -29,18 +29,8 @@ const Nav = () => {
         {session?.user ? (
           <div className='flex gap-3 md:gap-5'>
             <button type='button' onClick={signOut} className='outline_btn'>
-              Sign Out
+              Logga ut
             </button>
-
-            <Link href='/profile'>
-              <Image
-                src={session?.user.image}
-                width={37}
-                height={37}
-                className='rounded-full'
-                alt='profile'
-              />
-            </Link>
           </div>
         ) : (
           <>
@@ -54,7 +44,7 @@ const Nav = () => {
                   }}
                   className='black_btn'
                 >
-                  Sign in
+                  Logga in
                 </button>
               ))}
           </>
@@ -76,13 +66,6 @@ const Nav = () => {
 
             {toggleDropdown && (
               <div className='dropdown'>
-                <Link
-                  href='/profile'
-                  className='dropdown_link'
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  My Profile
-                </Link>
                 <button
                   type='button'
                   onClick={() => {
@@ -91,7 +74,7 @@ const Nav = () => {
                   }}
                   className='mt-5 w-full black_btn'
                 >
-                  Sign Out
+                  Logga ut
                 </button>
               </div>
             )}
