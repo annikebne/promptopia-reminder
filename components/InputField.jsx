@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useSession } from 'next-auth/react'
+import { ItemDispatchContext } from './ItemContext.js';
 
-function InputField ({ handleSucess }) {
+function InputField () {
   const { data: session } = useSession();
   const [input, setInput] = useState('');
+  const dispatch = useContext(ItemDispatchContext)
 
   function handleSubmit(event) {
     event.preventDefault();
     if (input.length > 0) {
       addItem(input);
+      setInput('')
     }
   }
 
@@ -29,9 +32,11 @@ function InputField ({ handleSucess }) {
       })
 
       if (response.ok) {
-        console.log("Successfully added")
         const data = await response.json()
-        handleSucess(data)
+        dispatch({
+          type: 'add',
+          item: data,
+        })
         
       }
     } catch (error) {
@@ -49,6 +54,7 @@ function InputField ({ handleSucess }) {
         type="text"
         id="user-input"
         name=""
+        value={input}
         placeholder="Att köpa"
         className="px-3 py-1 outline-1 flex-1"
         onChange={handleChange}

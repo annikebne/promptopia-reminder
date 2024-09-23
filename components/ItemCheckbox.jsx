@@ -1,8 +1,18 @@
 import React from 'react';
+import { useContext } from 'react'
+import { ItemDispatchContext } from './ItemContext.js';
 
-function ItemCheckbox ({ item, toggle }) {
+function ItemCheckbox ({ item }) {
+  const dispatch = useContext(ItemDispatchContext)
+
   function handleChange (event) {
-    toggle(item._id, event.target.checked);
+    dispatch({
+      item: {
+        ...item,
+        checked: event.target.checked,
+      },
+      type: 'changed'
+    })
   }
 
   return (

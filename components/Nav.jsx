@@ -19,7 +19,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className='flex-between w-full mb-10 pt-3 sm:px-16 px-6'>
+    <nav className='flex-between w-full mb-5 pt-3 sm:px-16 px-6'>
       <div className='flex gap-2 flex-center'>
         <p className="logo small uppercase">Kom ihåg</p>
       </div>

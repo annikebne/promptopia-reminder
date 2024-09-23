@@ -1,106 +1,64 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useEffect, useContext } from 'react'
+import { ItemContext, ItemDispatchContext } from '@components/ItemContext.js'
+import ItemFeed from "@components/ItemFeed";
+import InputField from '@components/InputField';
 
-import '../app/App.css';
-import ItemCheckbox from './ItemCheckbox';
+const ListPage = () => {
+  const dispatch = useContext(ItemDispatchContext)
+  const items = useContext(ItemContext)
 
-function getCheckedItems(array) {
-  if (!array) return [];
+const deleteItems = async () => {
+  const checkedItemIds = items.filter((item) => item.checked).map(it => it._id)
 
-  return array.filter((it) => it.feChecked).map((it) => it.id);
-}
+  if (!checkedItemIds.length) return
 
-function ListPage({ items }) {
-  const [openItemState, setOpenItemState] = useState([]);
-  const [checkedItemIds, setCheckedItemIds] = useState([]);
+  try {
+    const response = await fetch('/api/todos/delete', {
+      method: 'POST',
+      body: JSON.stringify({
+        ids: checkedItemIds
+      })
+    })
 
-  useEffect(() => {
-    setOpenItemState(items.map((it) => {
-      return {
-        ...it,
-        feChecked: false,
-      }
-    }))
-  }, [items]);
-
-  function addCheckedItem(id) {
-    let checkedArray = JSON.parse(JSON.stringify(checkedItemIds));
-    checkedArray.push(id);
-    setCheckedItemIds(checkedArray);
-  }
-
-  function removeCheckedItem(id) {
-    let checkedArray = JSON.parse(JSON.stringify(checkedItemIds));
-    const index = checkedArray.indexOf(id)
-    checkedArray.splice(index, 1)
-    setCheckedItemIds(checkedArray)
-  }
-
-  function toggle(id, isChecked) {
-    let array = JSON.parse(JSON.stringify(openItemState));
-    const item = array.find(it => it.id == id);
-    item.feChecked = isChecked;
-
-    if (isChecked) {
-      addCheckedItem(id)
-    } else {
-      removeCheckedItem(id)
+    if (response.ok) {
+      dispatch({ type: 'delete' })
     }
 
-    setOpenItemState(array);
+  } catch (error) {
+    console.log(error)
   }
+}
 
-  function renderItems(items) {
-    return items.map((it) => {
-      return (
-        <ItemCheckbox key={it.id} item={it} toggle={toggle} />
-      )
-    });
-  }
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch('/api/todos', { method: 'GET' })
+        let data = await response.json()
+        
+        data = data.map((item) => {
+          return { ...item, checked: false }
+        })
 
-  function renderItems(items) {
-    if (items.length > 0) {
-      return items.map((it) => {
-        return (<li key={it.id}>
-          <h2>{it.description}</h2>
-          </li>);
-      });
-    } else return (<h2>No items</h2>) 
-  }
+        dispatch({items: data, 'type': 'populate' })
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
-  function removeCheckedItems() {
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ "ids": checkedItemIds }),
-    // };
-
-    // fetch('/api/tick-items', requestOptions)
-    // .then(response => {
-    //   if (!response.ok) {
-    //     throw new Error("Api response was not ok")
-    //   }
-    //   return response.json();
-    // })
-    // .then((json) => {
-    //   // console.log("response", json)
-    // })
-    // .catch(error => console.error(error));
-  }
+    fetchItems()
+  }, [])
 
   return(
-    <>
-      <fieldset className="flex flex-col">
-          { renderItems(items) }
-      </fieldset>
-
-      <button
-        disabled={checkedItemIds.length == 0}
-        className="mt-1 px-4 py-2 bg-a-black rounded-md shadow-sm opacity-100 text-a-yellow text-sm font-semibold disabled:opacity-60"
-        onClick={removeCheckedItems}
-      >
-        Markera som köpta
-      </button>
-    </>
+    <div className='w-full bg-a-yellow font-sans'>
+      <ItemFeed />
+        <button
+          className="sm:mx-16 mx-6 my-4 px-4 py-2 font-semibold text-sm bg-a-black text-a-yellow rounded-md shadow-sm opacity-100 disabled:opacity-60"
+          onClick={deleteItems}
+        >
+          Ta bort markerade
+        </button>
+      <InputField />
+    </div>
   )
 }
 

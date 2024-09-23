@@ -1,28 +1,27 @@
+
 'use client'
-import ItemFeed from "@components/ItemFeed";
-import InputField from '@components/InputField';
+import ListPage from '@components/ListPage';
+import { useSession } from 'next-auth/react'
+
 import { SessionProvider } from 'next-auth/react';
-import { useState } from 'react'
+import { ItemProvider } from '@components/ItemContext.js'
+
 
 const Home = () => {
-  const [newItems, setNewItems] = useState([])
-
-  const handleSuccess = (response) => {
-    const newNewItems = JSON.parse(JSON.stringify(newItems))
-    newNewItems.push(response)
-    console.log(newNewItems)
-    setNewItems(newNewItems)
-  }
+  const { data: session } = useSession()
 
   return (
-
-    <div className='w-full font-sans'>
-      <SessionProvider>
-        <ItemFeed recentlyAdded={newItems} />
-
-        <InputField handleSucess={handleSuccess} />
+    <>
+    <SessionProvider>
+      {session?.user ?
+        <ItemProvider>
+          <ListPage />
+        </ItemProvider>
+      :
+        <div className='w-full bg-a-yellow font-sans sm:px-16 px-6'>
+          <h2>Logga in för att komma igång!</h2></div>}
       </SessionProvider>
-    </div>
+    </>
 )};
 
 export default Home;

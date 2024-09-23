@@ -21,8 +21,8 @@ const RootLayout = ({ children }) => (
     </Head>
     <body>
       <Provider>
-        <main className='app bg-a-yellow h-full'>
-          <div className={londrina.className}>
+        <main className='app bg-a-yellow h-screen'>
+          <div className={`h-full ${londrina.className}`}>
             <Nav />
             {children}
           </div>
