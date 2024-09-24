@@ -4,6 +4,7 @@ import { Londrina_Outline } from 'next/font/google'
 import Provider from "@components/Provider"
 import Nav from "@components/Nav"
 import Head from 'next/head'
+import { LoadingProvider } from '@components/LoadingContext.js'
 
 const londrina = Londrina_Outline({
   weight: '400',
@@ -21,12 +22,14 @@ const RootLayout = ({ children }) => (
     </Head>
     <body>
       <Provider>
-        <main className='app bg-a-yellow h-screen'>
-          <div className={`h-full ${londrina.className}`}>
-            <Nav />
-            {children}
-          </div>
-        </main>
+        <LoadingProvider>
+          <main className='app bg-a-yellow h-screen'>
+            <div className={`h-full ${londrina.className}`}>
+              <Nav />
+              {children}
+            </div>
+          </main>
+        </LoadingProvider>
       </Provider>
     </body>
   </html>

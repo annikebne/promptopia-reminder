@@ -1,11 +1,8 @@
 
 'use client'
 import ListPage from '@components/ListPage';
-import { useSession } from 'next-auth/react'
-
-import { SessionProvider } from 'next-auth/react';
+import { useSession, SessionProvider } from 'next-auth/react'
 import { ItemProvider } from '@components/ItemContext.js'
-
 
 const Home = () => {
   const { data: session } = useSession()

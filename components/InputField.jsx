@@ -40,14 +40,14 @@ function InputField () {
         
       }
     } catch (error) {
-      console.log("ERROR", error)
+      console.log(error)
     }
     
   }
   return (
     <form
       onSubmit={handleSubmit}
-      className="sticky bottom-0 w-full inset-x-0 h-16 z-10 bg-a-pink flex justify-between items-center px-4"
+      className="fixed bottom-0 w-full h-16 z-10 bg-a-pink flex justify-between items-center px-4"
       >
 
       <input

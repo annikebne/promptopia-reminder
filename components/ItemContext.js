@@ -25,11 +25,11 @@ export function useItemDispatch() {
 }
 
 function itemReducer(items, action) {
-  console.log(action);
   switch (action.type) {
     case 'populate': {
       return action.items
     }
+
     case 'add': {
       return [...items, {
         _id: action.item._id,
@@ -37,6 +37,7 @@ function itemReducer(items, action) {
         checked: false,
       }]
     }
+
     case 'changed': {
       return items.map(i => {
         if (i._id === action.item._id) {
@@ -50,6 +51,7 @@ function itemReducer(items, action) {
     case 'delete': {
       return items.filter((item) => !item.checked)
     }
+
     default: {
       throw Error('Unknown action: '. action.type)
     }

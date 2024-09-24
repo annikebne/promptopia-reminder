@@ -2,19 +2,30 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { LoadingDispatchContext } from '@components/LoadingContext.js'
+
 
 const Nav = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
-  const [providers, setProviders] = useState(null);
-  const [toggleDropdown, setToggleDropdown] = useState(false);
+  const [providers, setProviders] = useState(null)
+  const [toggleDropdown, setToggleDropdown] = useState(false)
+  const dispatch = useContext(LoadingDispatchContext)
 
   useEffect(() => {
     (async () => {
-      const res = await getProviders();
-      setProviders(res);
+      dispatch({'isLoading': true, type: 'update'})
+      try {
+        const res = await getProviders()
+        setProviders(res)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        dispatch({'isLoading': false, type: 'update'})
+      }
+      
     })();
   }, []);
 
