@@ -5,7 +5,7 @@ import InputField from '@components/InputField';
 import { LoadingDispatchContext, LoadingContext } from '@components/LoadingContext.js'
 
 const ListPage = () => {
-  const dispatch = useContext(ItemDispatchContext)
+  const dispatchItems = useContext(ItemDispatchContext)
   const dispatchLoading = useContext(LoadingDispatchContext)
   const isLoading = useContext(LoadingContext)
 
@@ -37,7 +37,7 @@ const deleteItems = async () => {
 }
 
   useEffect(() => {
-    dispatchLoading({type: 'update', isLoading: true})
+    dispatchLoading({ type: 'update', isLoading: true })
     const fetchItems = async () => {
 
       try {
@@ -48,18 +48,15 @@ const deleteItems = async () => {
           return { ...item, checked: false }
         })
 
-        dispatch({items: data, 'type': 'populate' })
+        dispatchItems({ items: data, type: 'populate' })
       } catch (error) {
         console.log(error)
       } finally {
-        dispatchLoading({type: 'update', isLoading: false})
+        dispatchLoading({ type: 'update', isLoading: false })
       }
     }
 
-    setTimeout(async () => {
-      await fetchItems()
-    }, 1000)
-    // fetchItems()
+    fetchItems()
   }, [])
 
   return(

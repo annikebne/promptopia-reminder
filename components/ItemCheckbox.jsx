@@ -17,7 +17,7 @@ function ItemCheckbox ({ item }) {
 
   return (
     <>
-      <div className="pl-2 pr-2 pb-2 pt-2 my-1 border rounded-lg border-a-black divide-lime-600 flex items-center gap-x-2">
+      <div className="itemCheckbox pl-2 pr-2 pb-2 pt-2 my-1 border rounded-lg border-a-black divide-lime-600 flex items-center gap-x-2">
         <input
           type="checkbox"
           className="appearance-none h-9 w-9 shrink-0 border border-4 border-a-yellow rounded-sm bg-transparent

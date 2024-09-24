@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.itemCheckbox {
+  animation: fadeIn 0.25s;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 /* 
   Note: The styles for this gradient grid background is heavily inspired by the creator of this amazing site (https://dub.sh) – all credits go to them! 
 */
