@@ -11,53 +11,59 @@ const ListPage = () => {
 
   const items = useContext(ItemContext)
 
-const deleteItems = async () => {
-  const checkedItemIds = items.filter((item) => item.checked).map(it => it._id)
+  const fetchItems = async () => {
+    dispatchLoading({ type: 'update', isLoading: true })
 
-  if (!checkedItemIds.length) return
-
-  try {
-    dispatchLoading({type: 'update', isLoading: true})
-    const response = await fetch('/api/todos/delete', {
-      method: 'POST',
-      body: JSON.stringify({
-        ids: checkedItemIds
+    try {
+      const response = await fetch('/api/todos', { method: 'GET' })
+      let data = await response.json()
+      
+      data = data.map((item) => {
+        return { ...item, checked: false }
       })
-    })
 
-    if (response.ok) {
-      dispatch({ type: 'delete' })
+      dispatchItems({ items: data, type: 'populate' })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatchLoading({ type: 'update', isLoading: false })
     }
-
-  } catch (error) {
-    console.log(error)
-  } finally {
-    dispatchLoading({type: 'update', isLoading: false})
   }
-}
+
+  const deleteItems = async () => {
+
+    const checkedItemIds = items.filter((item) => item.checked).map(it => it._id)
+
+    if (!checkedItemIds.length) return
+
+    try {
+      dispatchLoading({type: 'update', isLoading: true})
+      const response = await fetch('/api/todos/delete', {
+        method: 'POST',
+        body: JSON.stringify({
+          ids: checkedItemIds
+        })
+      })
+
+      if (response.ok) {
+        dispatch({ type: 'delete' })
+      }
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatchLoading({type: 'update', isLoading: false})
+    }
+  }
 
   useEffect(() => {
-    dispatchLoading({ type: 'update', isLoading: true })
-    const fetchItems = async () => {
-
-      try {
-        const response = await fetch('/api/todos', { method: 'GET' })
-        let data = await response.json()
-        
-        data = data.map((item) => {
-          return { ...item, checked: false }
-        })
-
-        dispatchItems({ items: data, type: 'populate' })
-      } catch (error) {
-        console.log(error)
-      } finally {
-        dispatchLoading({ type: 'update', isLoading: false })
-      }
-    }
-
     fetchItems()
   }, [])
+
+  const handleDeleteClick = async () => {
+    await deleteItems()
+    await fetchItems()
+  }
 
   return(
     <div className="w-full h-full bg-a-yellow font-sans">
@@ -69,7 +75,7 @@ const deleteItems = async () => {
           <ItemFeed />
           <button
             className="sm:mx-16 mx-6 my-4 px-4 py-2 font-semibold text-sm bg-a-black text-a-yellow rounded-md shadow-sm opacity-100 disabled:opacity-60"
-            onClick={deleteItems}
+            onClick={handleDeleteClick}
           >
             Ta bort markerade
           </button>

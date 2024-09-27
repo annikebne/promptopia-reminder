@@ -12,27 +12,30 @@ const londrina = Londrina_Outline({
   variable: '--font-londrina-outline'
 })
 
-const RootLayout = ({ children }) => (
-  <html lang='en'>
-    <Head>
-      <title>Kom ihåg</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com"/>
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link href="https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap" rel="stylesheet" />
-    </Head>
-    <body>
-      <Provider>
-        <LoadingProvider>
-          <main className='app bg-a-yellow h-screen'>
-            <div className={`h-full ${londrina.className}`}>
-              <Nav />
-              {children}
-            </div>
-          </main>
-        </LoadingProvider>
-      </Provider>
-    </body>
-  </html>
-);
+const RootLayout = ({ children }) => {
+
+  return (
+    <html lang='sv'>
+      <Head>
+        <title>Kom ihåg</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap" rel="stylesheet" />
+      </Head>
+      <body className="bg-a-yellow">
+         <Provider>
+          <LoadingProvider>
+            <main className='app bg-a-yellow h-screen'>
+              <div className={`h-full ${londrina.className}`}>
+                <Nav />
+                { children }
+              </div>
+            </main>
+          </LoadingProvider>
+        </Provider>
+      </body>
+    </html>
+  );
+} 
 
 export default RootLayout;

@@ -4,6 +4,12 @@ import GoogleProvider from 'next-auth/providers/google';
 import User from '@models/user';
 import { connectToDB } from '@utils/database';
 
+const validEmails = [
+  'annika.svedin@gmail.com',
+  'annika.svedin@kebne.se',
+  'per.j.andersen@gmail.com',
+]
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -20,6 +26,11 @@ const handler = NextAuth({
       return session;
     },
     async signIn({ account, profile, user, credentials }) {
+      // only allow whitelisted emails
+      if (!validEmails.includes(profile.email)) {
+        return false
+      }
+      
       try {
         await connectToDB();
 
